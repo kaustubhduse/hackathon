@@ -1,0 +1,39 @@
+/* InfoCard.css */
+
+.info-card {
+    animation: slideUp 0.5s ease-in-out forwards;
+    opacity: 0;
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .info-card-img {
+    animation: fadeInZoom 0.8s ease-in-out forwards;
+    opacity: 0;
+  }
+  
+  @keyframes fadeInZoom {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .info-card-button:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s;
+  }
+  

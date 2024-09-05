@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "./InfoCard.css"; // Import the CSS file for animations
 
 function InfoCard(props) {
   const [timer, setTimer] = useState("00:00:00:00");
@@ -83,11 +84,11 @@ function InfoCard(props) {
   }, [startDate, endDate]);
 
   return (
-    <div className="lg:w-[90%] w-[70%] mx-auto items-center justify-center bg-white shadow-lg rounded-2xl text-center flex flex-col h-[500px]">
-      <img 
-        src={img} 
-        alt={alt} 
-        className="w-full h-40 object-cover rounded-t-md" // Fixed height and maintain aspect ratio
+    <div className="info-card animate-slide-up lg:w-[90%] w-[70%] mx-auto items-center justify-center bg-white shadow-lg rounded-2xl text-center flex flex-col h-[500px]">
+      <img
+        src={img}
+        alt={alt}
+        className="info-card-img w-full h-40 object-cover rounded-t-md" // Fixed height and maintain aspect ratio
       />
       <div className="flex-grow flex flex-col justify-between py-[9%]">
         {/* Status Section */}
@@ -163,7 +164,7 @@ function InfoCard(props) {
         {/* Participate Button */}
         <Link
           to={`/detail-page/${challengeId}`} // Use challengeId from props
-          className="bg-[rgba(68,146,76,1)] text-white font-bold py-3 px-4 rounded-xl cursor-pointer w-fit mx-auto flex items-center justify-center gap-2 mt-7"
+          className="info-card-button bg-[rgba(68,146,76,1)] text-white font-bold py-3 px-4 rounded-xl cursor-pointer w-fit mx-auto flex items-center justify-center gap-2 mt-7"
         >
           <span className="flex items-center justify-center w-6 h-6 bg-white text-[rgba(68,146,76,1)] rounded-full">
             <svg
