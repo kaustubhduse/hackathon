@@ -47,13 +47,13 @@ function CreateChallenge() {
         if (challenge.image) {
           formData.append("image", challenge.image);
         }
-
+        console.log(formData)
         await axios.post("https://hackathon-lyart-one.vercel.app/api/add-card", formData, {
            
         });  
       }
       console.log("Challenges added successfully");
-      navigate("/"); // Redirect to homepage after form submission
+      navigate("https://hackathon-lyart-one.vercel.app"); 
     } catch (error) {
       console.error("Error submitting the challenges:", error.response ? error.response.data : error.message);
     }
