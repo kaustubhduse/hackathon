@@ -11,6 +11,15 @@ function CreateChallenge() {
   const [image, setImage] = useState(null);
   const [level, setLevel] = useState("Easy");
 
+  const formData = {
+    challengeName: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+    image: null,
+    level: "",
+  }
+
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleImageUpload = (event) => {
@@ -19,15 +28,15 @@ function CreateChallenge() {
 
   const challengeSubmitHandler = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("challengeName", challengeName);
-    formData.append("startDate", startDate);
-    formData.append("endDate", endDate);
-    formData.append("description", description);
-    formData.append("level", level);
+    formData.challengeName = challengeName;
+    formData.startDate = startDate;
+    formData.endDate = endDate;
+    formData.description = description;
+    formData.level = level;
+
     
     if (image) {
-      formData.append("image", image);
+      formData.image = image;
     }
      console.log("Form Data:", formData);
     try {
