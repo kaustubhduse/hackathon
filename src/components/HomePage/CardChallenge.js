@@ -39,54 +39,7 @@ function CardChallenge() {
   // Function to get image for a challenge
   const getCardImage = (index) => {
     return cardImages[index % cardImages.length]; // Use modulo to cycle through images
-  };
-
-  // Static cards data
-  const staticCards = [
-    {
-      img: card1,
-      alt: "placeholder",
-      status: "Upcoming",
-      challengeName: "Data Science Bootcamp - Graded Datathon",
-      startDate: "10/09/2024",
-      endDate: "10/19/2024",
-    },
-    {
-      img: card2,
-      alt: "placeholder",
-      challengeName: "Data Sprint 72 - Butterfly Identification",
-      startDate: "04/11/2024",
-      endDate: "04/21/2024"
-    },
-    {
-      img: card3,
-      alt: "placeholder",
-      challengeName: "Data Sprint 71 - Weather Recognition",
-      startDate: "09/02/2024",
-      endDate: "09/11/2024"
-    },
-    {
-      img: card4,
-      alt: "placeholder",
-      challengeName: "Data Sprint 70 - Airline Passenger Satisfaction",
-      startDate: "09/04/2024",
-      endDate: "09/15/2024"
-    },
-    {
-      img: card5,
-      alt: "placeholder",
-      challengeName: "Engineering Graduates Employment Outcomes",
-      startDate: "11/04/2023",
-      endDate: "21/04/2023"
-    },
-    {
-      img: card6,
-      alt: "placeholder",
-      challengeName: "Travel Insurance Claim Prediction",
-      startDate: "11/04/2023",
-      endDate: "21/04/2023"
-    }
-  ];
+  };  
 
   // Filter both static and dynamic cards based on selected filters
   const filteredStaticCards = staticCards.filter((card) => {
