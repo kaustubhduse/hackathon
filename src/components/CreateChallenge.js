@@ -35,7 +35,7 @@ function CreateChallenge() {
 
     try {
       const response = await axios.post(
-        "https://hackathon-lyart-one.vercel.app/api/add-card",
+        "https://hackathon-lyart-one.vercel.app/create-challenge/api/add-card",
         formData
       );
       console.log("Challenge added successfully:", response.data);
