@@ -34,11 +34,18 @@ function CreateChallenge() {
     console.log("Form Data:", formData);
 
     try {
-      const response = await axios.post("https://hackathon-lyart-one.vercel.app/api/add-card", formData);
+      const response = await axios.post(
+        "https://hackathon-lyart-one.vercel.app/api/add-card",
+        formData
+      );
       console.log("Challenge added successfully:", response.data);
       navigate("/"); // Redirect to homepage or desired route after form submission
     } catch (error) {
-      console.error("Error submitting the challenge:", error.response ? error.response.data : error.message);
+      console.error(
+        "Error submitting the challenge:",
+        error.response ? error.response.data : error.message
+      );
+      // Optionally show a user-friendly message
     }
   };
 
@@ -91,7 +98,9 @@ function CreateChallenge() {
           </div>
 
           <div className="mb-4 flex space-x-2 bg-[rgba(217,217,217,1)] w-fit py-3 px-[4%] rounded-lg">
-            <p className="font-semibold mb-2 text-[rgba(102,102,102,1)]">Upload</p>
+            <p className="font-semibold mb-2 text-[rgba(102,102,102,1)]">
+              Upload
+            </p>
             <label className="relative block cursor-pointer">
               <img
                 src={upload}
@@ -128,10 +137,7 @@ function CreateChallenge() {
           </div>
 
           <div className="bg-[rgba(68,146,76,1)] text-center py-2 px-5 rounded-xl w-fit">
-            <button
-              type="submit"
-              className="text-white font-bold"
-            >
+            <button type="submit" className="text-white font-bold">
               Create Challenge
             </button>
           </div>
