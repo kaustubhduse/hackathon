@@ -1,106 +1,147 @@
-const express = require("express");
-const multer = require("multer");
-const path = require("path");
-const CardModel = require("../models/CardModel");
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import upload from "../assets/upload.png";
+import axios from "axios";
 
-const router = express.Router();
+function CreateChallenge() {
+  const [challengeName, setChallengeName] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState(null);
+  const [level, setLevel] = useState("Easy");
 
-// Set up multer for file uploads
-const upload = multer({
-  dest: "uploads/", // Directory to store uploaded files
-  limits: {
-    fileSize: 5 * 1024 * 1024, // Limit file size to 5MB
-  },
-});
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
-// Add card route
-router.post("/add-card", upload.single("image"), async (req, res) => {
-  try {
-    // Create a new card with uploaded image path
-    const card = new CardModel({
-      challengeName: req.body.challengeName,
-      startDate: req.body.startDate,
-      endDate: req.body.endDate,
-      description: req.body.description,
-      image: req.file ? req.file.path : null, // Save image path
-      level: req.body.level,
-    });
+  const handleImageUpload = (event) => {
+    setImage(event.target.files[0]);
+  };
 
-    await card.save();
-    res.status(201).json({ message: "Card added successfully" });
-  } catch (error) {
-    console.error("Error adding card:", error.message);
-    res.status(500).json({ message: "Error adding card" });
-  }
-});
+  const challengeSubmitHandler = async (e) => {
+    e.preventDefault();
 
-// Get all cards route
-router.get("/get-cards", async (req, res) => {
-  try {
-    const cards = await CardModel.find();
-    res.status(200).json(cards);
-  } catch (error) {
-    console.error("Error fetching cards:", error.message);
-    res.status(500).json({ message: "Error fetching cards" });
-  }
-});
+    const formData = new FormData();
+    formData.append("challengeName", challengeName);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("description", description);
+    formData.append("level", level);
 
-// Get a single card by id
-router.get("/get-card/:id", async (req, res) => {
-  try {
-    const card = await CardModel.findById(req.params.id);
-    if (!card) {
-      return res.status(404).json({ message: "Card not found" });
-    }
-    res.status(200).json(card);
-  } catch (error) {
-    console.error("Error fetching the card:", error.message);
-    res.status(500).json({ message: "Error fetching the card" });
-  }
-});
-
-// Update a card by id
-router.put("/update-card/:id", async (req, res) => {
-  try {
-    const updatedCard = await CardModel.findByIdAndUpdate(
-      req.params.id,
-      {
-        challengeName: req.body.challengeName,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        description: req.body.description,
-        image: req.body.image,
-        level: req.body.level,
-      },
-      { new: true }
-    ); // Return the updated document
-
-    if (!updatedCard) {
-      return res.status(404).json({ message: "Card not found" });
+    if (image) {
+      formData.append("image", image);
     }
 
-    res
-      .status(200)
-      .json({ message: "Card updated successfully", card: updatedCard });
-  } catch (error) {
-    console.error("Error updating card:", error.message);
-    res.status(500).json({ message: "Error updating card" });
-  }
-});
-
-// Delete a card by id
-router.delete("/delete-card/:id", async (req, res) => {
-  try {
-    const deletedCard = await CardModel.findByIdAndDelete(req.params.id);
-    if (!deletedCard) {
-      return res.status(404).json({ message: "Card not found" });
+    console.log("Form Data:", formData);
+    try {
+      const response = await axios.post("https://hackathon-lyart-one.vercel.app/api/add-card", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Challenge added successfully:", response.data);
+      navigate("/"); // Redirect to homepage after form submission
+    } catch (error) {
+      console.error("Error submitting the challenge:", error.response ? error.response.data : error.message);
     }
+  };
 
-    res.status(200).json({ message: "Card deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting card:", error.message);
-    res.status(500).json({ message: "Error deleting card" });
-  }
-});
+  return (
+    <div className="bg-white shadow-lg rounded-lg text-left py-[3%]">
+      <div className="bg-[rgba(248,249,253,1)] py-[2%] px-[5%]">
+        <h1 className="text-2xl font-bold mb-4">Challenge Details</h1>
+      </div>
+      <div className="px-[5%] space-y-[3%] mt-[3%]">
+        <form onSubmit={challengeSubmitHandler}>
+          <div className="mb-4">
+            <p className="font-semibold">Challenge Name</p>
+            <input
+              type="text"
+              value={challengeName}
+              onChange={(e) => setChallengeName(e.target.value)}
+              className="w-[40%] p-2 border border-gray-300 rounded mt-5"
+            />
+          </div>
 
-module.exports = router;
+          <div className="mb-4">
+            <p className="font-semibold">Start Date</p>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-[40%] p-2 border border-gray-300 rounded mt-5"
+            />
+          </div>
+
+          <div className="mb-4">
+            <p className="font-semibold">End Date</p>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-[40%] p-2 border border-gray-300 rounded mt-5"
+            />
+          </div>
+
+          <div className="mb-4">
+            <p className="font-semibold">Description</p>
+            <textarea
+              placeholder="Enter Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-[60%] p-2 border border-gray-300 rounded mt-5"
+              rows={4}
+            />
+          </div>
+
+          <div className="mb-4 flex space-x-2 bg-[rgba(217,217,217,1)] w-fit py-3 px-[4%] rounded-lg">
+            <p className="font-semibold mb-2 text-[rgba(102,102,102,1)]">Upload</p>
+            <label className="relative block cursor-pointer">
+              <img
+                src={upload} // Replace with the path to your upload image
+                alt="Upload"
+                className="rounded cursor-pointer"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+            </label>
+            {image && (
+              <img
+                src={URL.createObjectURL(image)}
+                alt="Uploaded"
+                className="mt-2 w-full h-32 object-cover rounded cursor-pointer"
+              />
+            )}
+          </div>
+
+          <div className="mb-4">
+            <p className="font-semibold">Level Type</p>
+            <select
+              value={level}
+              onChange={(e) => setLevel(e.target.value)}
+              className="w-[15%] p-2 border border-gray-300 rounded mt-5"
+            >
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+
+          <div className="bg-[rgba(68,146,76,1)] text-center py-2 px-5 rounded-xl w-fit">
+            <button
+              type="submit" // Ensure the button type is 'submit'
+              className="text-white font-bold"
+            >
+              Create Challenge
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default CreateChallenge;
