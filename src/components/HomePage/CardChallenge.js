@@ -15,13 +15,15 @@ function CardChallenge() {
   });
 
   useEffect(() => {
-    // Load challenges from localStorage when component mounts
+    // Load challenges and filters from localStorage when component mounts
     const savedChallenges = JSON.parse(localStorage.getItem('challenges')) || [];
+    const savedFilters = JSON.parse(localStorage.getItem('selectedFilters')) || { status: [], level: [] };
     setChallenges(savedChallenges);
+    setSelectedFilters(savedFilters);
   }, []); // Empty dependency array to run only once on component mount
 
   useEffect(() => {
-    localStorage.setItem('selectedFilters', JSON.stringify(selectedFilters)); // Fix: Use `setItem` to store filters
+    localStorage.setItem('selectedFilters', JSON.stringify(selectedFilters)); // Store filters in localStorage
   }, [selectedFilters]);
 
   // Function to filter challenges based on selected filters
@@ -39,32 +41,10 @@ function CardChallenge() {
   // Function to get image for a challenge
   const getCardImage = (index) => {
     return cardImages[index % cardImages.length]; // Use modulo to cycle through images
-  };  
-
-  // Filter both static and dynamic cards based on selected filters
-  const filteredStaticCards = staticCards.filter((card) => {
-    const matchesStatus = selectedFilters.status.length === 0 || selectedFilters.status.includes(card.status);
-    const matchesLevel = selectedFilters.level.length === 0 || selectedFilters.level.includes(card.level);
-    return matchesStatus && matchesLevel;
-  });
+  };
 
   return (
     <div className="bg-[rgba(0,49,69,1)] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-10 px-4 lg:px-[10%] py-[5%]">
-      {/* Static Cards */}
-      {filteredStaticCards.map((card, index) => (
-        <InfoCard
-          key={index}
-          img={card.img}
-          alt={card.alt}
-          status={card.status}
-          challengeName={card.challengeName}
-          startDate={card.startDate}
-          endDate={card.endDate}
-          description={card.description}
-          level={card.level}
-        />
-      ))}
-
       {/* Dynamic Cards */}
       {filterChallenges(challenges).map((challenge, index) => (
         <InfoCard
