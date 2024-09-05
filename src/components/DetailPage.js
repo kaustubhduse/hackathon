@@ -8,7 +8,8 @@ function DetailPage() {
   const [challenge, setChallenge] = useState(null);
 
   useEffect(() => {
-    const savedChallenges = JSON.parse(localStorage.getItem("challenges")) || [];
+    const savedChallenges =
+      JSON.parse(localStorage.getItem("challenges")) || [];
     const foundChallenge = savedChallenges.find((ch) => ch.id === parseInt(id));
     setChallenge(foundChallenge);
   }, [id]);
@@ -18,7 +19,8 @@ function DetailPage() {
   };
 
   const handleDeleteClick = () => {
-    const savedChallenges = JSON.parse(localStorage.getItem("challenges")) || [];
+    const savedChallenges =
+      JSON.parse(localStorage.getItem("challenges")) || [];
     const updatedChallenges = savedChallenges.filter(
       (ch) => ch.id !== parseInt(id)
     );
@@ -48,13 +50,15 @@ function DetailPage() {
               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          {challenge.challengeName}
+          {`Starts on ${challenge.startDate} 9:00 PM(Indian Standard Time)`}
         </h1>
 
         <h1 className="text-white text-2xl md:text-4xl font-bold">
           {challenge.challengeName}
         </h1>
-        <p className="text-white text-sm md:text-lg">{challenge.description}</p>
+        <p className="text-white text-sm md:text-md">
+          Identify the class to which each butterfly belongs to
+        </p>
         <div className="bg-white w-fit py-2 px-4 md:px-[2%] rounded-lg flex space-x-2 items-center">
           <img src={easy} alt="easy" className="h-5 w-5 md:h-6 md:w-6" />
           <p className="text-[rgba(0,49,69,1)] font-semibold text-xs md:text-base">
@@ -85,7 +89,19 @@ function DetailPage() {
       </div>
 
       <p className="px-4 py-4 md:px-[7%] md:py-[3%] lg:w-[80%] text-sm md:text-lg leading-relaxed">
-        {challenge.description}
+        Butterflies are the adult flying stage of certain insects belonging to
+        an order or group called Lepidoptera. The word "Lepidoptera" means
+        "scaly wings" in Greek. This name perfectly suits the insects in this
+        group because their wings are covered with thousands of tiny scales
+        overlapping in rows.
+        <br></br>
+        <br></br>An agency of the Governmental Wildlife Conservation is planning
+        to implement an automated system based on computer vision so that it can
+        identify butterflies based on captured images. As a consultant for this
+        project, you are responsible for developing an efficient model.
+        <br></br>
+        <br></br>Your Task is to build an Image Classification Model using CNN
+        that classifies to which class of weather each image belongs to.
       </p>
     </div>
   );

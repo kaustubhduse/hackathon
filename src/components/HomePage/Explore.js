@@ -8,6 +8,7 @@
       status: [],
       level: [],
     });
+
     const [dropdownValue, setDropdownValue] = useState(""); // State to manage dropdown value
 
     const handleSearchChange = (event) => {
@@ -22,6 +23,9 @@
         ...prevFilters,
         [type]: [...prevFilters[type], value],
       }));
+
+      localStorage.setItem("selectedFilters", JSON.stringify(selectedFilters));
+      
       setDropdownValue(""); // Reset the dropdown value after selecting an option
     };
 

@@ -9,8 +9,16 @@ function InfoCard(props) {
   const [intervalId, setIntervalId] = useState(null);
   const [isVisible, setIsVisible] = useState(false); // State to track visibility
   const cardRef = useRef(null); // Reference to the card element
+  const selectedFilters = {
+    status: [],
+    level: [],
+  };
 
   const { startDate, endDate, img, alt, challengeName, challengeId } = props;
+
+  useEffect(() => {
+    localStorage.setItem("selectedFilters", JSON.stringify(selectedFilters));
+  });
 
   // Function to calculate the remaining time
   const getTimeRemaining = (endTime) => {
