@@ -49,10 +49,8 @@ function CreateChallenge() {
         }
 
         await axios.post("https://hackathon-lyart-one.vercel.app/api/add-card", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+           
+        });  
       }
       console.log("Challenges added successfully");
       navigate("/"); // Redirect to homepage after form submission
