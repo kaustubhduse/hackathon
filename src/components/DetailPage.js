@@ -13,7 +13,7 @@ function DetailPage() {
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
-        const response = await axios.get(`http://localhost:1000/api/get-card/${id}`);
+        const response = await axios.get(`https://hackathon-lyart-one.vercel.app/api/get-card/${id}`);
         setChallenge(response.data);
       } catch (err) {
         setError(err.message);
@@ -27,7 +27,7 @@ function DetailPage() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:1000/api/delete-card/${id}`);
+      await axios.delete(`https://hackathon-lyart-one.vercel.app/api/delete-card/${id}`);
       navigate("/"); // Navigate back to the home page after successful deletion
     } catch (err) {
       setError(err.message);

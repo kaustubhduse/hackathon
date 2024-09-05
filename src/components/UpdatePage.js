@@ -16,7 +16,7 @@ function UpdatePage() {
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
-        const response = await axios.get(`http://localhost:1000/api/get-card/${id}`);
+        const response = await axios.get(`https://hackathon-lyart-one.vercel.app/api/get-card/${id}`);
         const { challengeName, startDate, endDate, description, level, image } = response.data;
         setChallengeName(challengeName);
         setStartDate(startDate);
@@ -65,7 +65,7 @@ function UpdatePage() {
     }
 
     try {
-      const response = await axios.put(`http://localhost:1000/api/update-card/${id}`, formData, {
+      const response = await axios.put(`https://hackathon-lyart-one.vercel.app/api/update-card/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -15,7 +15,7 @@ function CardChallenge() {
     const fetchData = async () => {
       try {
         // Await the response and access the data directly
-        const response = await axios.get("http://localhost:1000/api/get-cards"); // Adjust the endpoint if necessary
+        const response = await axios.get("https://hackathon-lyart-one.vercel.app/api/get-cards"); // Adjust the endpoint if necessary
         setChallenges(response.data); // Set the data received from the backend
         console.log("Challenges fetched:", response.data);
       } catch (error) {

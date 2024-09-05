@@ -31,7 +31,7 @@ function CreateChallenge() {
     }
   
     try {
-      const response = await axios.post("http://localhost:1000/api/add-card", formData, {
+      const response = await axios.post("https://hackathon-lyart-one.vercel.app/api/add-card", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
