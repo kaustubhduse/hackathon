@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { ChallengeProvider } from "./components/useContext";
+import HomePage from "./components/HomePage/HomePage";
+import CreateChallenge from "./components/CreateChallenge";
+import DetailPage from "./components/DetailPage";
+import UpdatePage from "./components/UpdatePage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChallengeProvider>
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/create-challenge" element={<CreateChallenge />} />
+            <Route path="/detail-page/:id" element={<DetailPage />} />
+            <Route path="/update/:id" element={<UpdatePage />} />
+          </Routes>
+        </Router>
+      </div>
+    </ChallengeProvider>
   );
 }
 
