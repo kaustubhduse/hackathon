@@ -202,12 +202,12 @@ function InfoCard(props) {
             >
               <path
                 fillRule="evenodd"
-                d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586l-3.293-3.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
+                d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
                 clipRule="evenodd"
               />
             </svg>
           </span>
-          Participate Now
+          <span className="text-xs sm:text-base">Participate</span>
         </Link>
       </div>
     </div>
