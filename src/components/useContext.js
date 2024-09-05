@@ -15,13 +15,14 @@ export const ChallengeProvider = ({ children }) => {
 
   // Load challenges from localStorage when component mounts
   useEffect(() => {
-    const savedChallenges = JSON.parse(localStorage.getItem('challenges')) || [];
+    const savedChallenges =
+      JSON.parse(localStorage.getItem("challenges")) || [];
     setChallenges(savedChallenges);
   }, []);
 
   // Save challenges to localStorage whenever the challenges state changes
   useEffect(() => {
-    localStorage.setItem('challenges', JSON.stringify(challenges));
+    localStorage.setItem("challenges", JSON.stringify(challenges));
   }, [challenges]);
 
   // Function to handle image upload
@@ -42,6 +43,8 @@ export const ChallengeProvider = ({ children }) => {
     };
     setChallenges([...challenges, challengeData]); // Add new challenge to the list
     console.log("Challenge Created:", challengeData);
+    localStorage.setItem("challenges", JSON.stringify(challenges));
+
     resetForm(); // Reset form after submission
   };
 

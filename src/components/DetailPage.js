@@ -1,19 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import easy from "../assets/easy.png";
 
-function DetailPage(props) {
+function DetailPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [challenge, setChallenge] = useState(null);
 
   useEffect(() => {
-    // Retrieve challenges from localStorage
-    const savedChallenges = JSON.parse(localStorage.getItem('challenges')) || [];
-    
-    // Find the challenge based on an ID passed as a prop
-    const challengeId = props.match.params.id; // Adjust this based on how you're passing the ID
-    const foundChallenge = savedChallenges.find(ch => ch.id === parseInt(challengeId));
-    
+    const savedChallenges = JSON.parse(localStorage.getItem("challenges")) || [];
+    const foundChallenge = savedChallenges.find((ch) => ch.id === parseInt(id));
     setChallenge(foundChallenge);
-  }, [props.match.params.id]);
+  }, [id]);
+
+  const handleEditClick = () => {
+    navigate(`/update/${id}`);
+  };
+
+  const handleDeleteClick = () => {
+    const savedChallenges = JSON.parse(localStorage.getItem("challenges")) || [];
+    const updatedChallenges = savedChallenges.filter(
+      (ch) => ch.id !== parseInt(id)
+    );
+    localStorage.setItem("challenges", JSON.stringify(updatedChallenges));
+    navigate("/");
+  };
 
   if (!challenge) {
     return <div>Loading...</div>;
@@ -37,18 +48,18 @@ function DetailPage(props) {
               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          Starts on {new Date(challenge.startDate).toLocaleDateString()} {new Date(challenge.startDate).toLocaleTimeString()}
+          {challenge.challengeName}
         </h1>
 
         <h1 className="text-white text-2xl md:text-4xl font-bold">
           {challenge.challengeName}
         </h1>
-        <p className="text-white text-sm md:text-lg">
-          {challenge.description}
-        </p>
+        <p className="text-white text-sm md:text-lg">{challenge.description}</p>
         <div className="bg-white w-fit py-2 px-4 md:px-[2%] rounded-lg flex space-x-2 items-center">
           <img src={easy} alt="easy" className="h-5 w-5 md:h-6 md:w-6" />
-          <p className="text-[rgba(0,49,69,1)] font-semibold text-xs md:text-base">{challenge.level}</p>
+          <p className="text-[rgba(0,49,69,1)] font-semibold text-xs md:text-base">
+            {challenge.level}
+          </p>
         </div>
       </div>
 
@@ -58,17 +69,23 @@ function DetailPage(props) {
           <span className="absolute left-0 top-[100%] w-full h-1 bg-green-500"></span>
         </h1>
         <div className="flex flex-wrap justify-center md:justify-start space-x-4 md:space-x-8">
-          <div className="bg-[rgba(68,146,76,1)] py-2 px-5 md:px-7 rounded-xl cursor-pointer">
+          <div
+            className="bg-[rgba(68,146,76,1)] py-2 px-5 md:px-7 rounded-xl cursor-pointer"
+            onClick={handleEditClick}
+          >
             <p className="text-white">Edit</p>
           </div>
-          <div className="border-2 border-[rgba(220,20,20,1)] py-2 px-4 md:px-5 rounded-xl cursor-pointer">
+          <div
+            className="border-2 border-[rgba(220,20,20,1)] py-2 px-4 md:px-5 rounded-xl cursor-pointer"
+            onClick={handleDeleteClick}
+          >
             <p className="text-red-600 font-bold">Delete</p>
           </div>
         </div>
       </div>
 
       <p className="px-4 py-4 md:px-[7%] md:py-[3%] lg:w-[80%] text-sm md:text-lg leading-relaxed">
-        {challenge.fullDescription}
+        {challenge.description}
       </p>
     </div>
   );

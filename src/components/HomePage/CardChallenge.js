@@ -6,39 +6,15 @@ import card3 from "../../assets/card3.png";
 import card4 from "../../assets/card4.png";
 import card5 from "../../assets/card5.png";
 import card6 from "../../assets/card6.png";
-import axios from "axios";
 
 function CardChallenge() {
   const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://hackathon-lyart-one.vercel.app/api/get-cards"
-        );
-        if (response.status === 200) {
-          // Check if the response data is an array
-          if (Array.isArray(response.data)) {
-            setChallenges(response.data);
-          } else {
-            console.error("Unexpected data format:", response.data);
-            setChallenges([]); // Set to empty array if format is not as expected
-          }
-          console.log("Challenges fetched:", response.data);
-        } else {
-          console.error("Unexpected response status:", response.status);
-        }
-      } catch (error) {
-        console.error(
-          "Error fetching challenges:",
-          error.response ? error.response.data : error.message
-        );
-      }
-    };
-
-    fetchData();
-  }, []); // Empty dependency array to run only once on component mount
+    // Load challenges from localStorage when the component mounts
+    const savedChallenges = JSON.parse(localStorage.getItem("challenges")) || [];
+    setChallenges(savedChallenges);
+  }, []); // Empty dependency array ensures this runs only once on component mount
 
   return (
     <div className="bg-[rgba(0,49,69,1)] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-10 px-4 lg:px-[10%] py-[5%]">
@@ -59,6 +35,8 @@ function CardChallenge() {
         challengeName="Data Sprint 72 - Butterfly Identification"
         startDate="04/11/2024"
         endDate="04/21/2024"
+        status="Ongoing"
+        level="Medium"
       />
       <InfoCard
         img={card3}
@@ -66,6 +44,8 @@ function CardChallenge() {
         challengeName="Data Sprint 71 - Weather Recognition"
         startDate="09/02/2024"
         endDate="09/11/2024"
+        status="Completed"
+        level="Hard"
       />
       <InfoCard
         img={card4}
@@ -73,6 +53,8 @@ function CardChallenge() {
         challengeName="Data Sprint 70 - Airline Passenger Satisfaction"
         startDate="09/04/2024"
         endDate="09/15/2024"
+        status="Upcoming"
+        level="Easy"
       />
       <InfoCard
         img={card5}
@@ -80,6 +62,8 @@ function CardChallenge() {
         challengeName="Engineering Graduates Employment Outcomes"
         startDate="11/04/2023"
         endDate="21/04/2023"
+        status="Completed"
+        level="Medium"
       />
       <InfoCard
         img={card6}
@@ -87,27 +71,25 @@ function CardChallenge() {
         challengeName="Travel Insurance Claim Prediction"
         startDate="11/04/2023"
         endDate="21/04/2023"
+        status="Completed"
+        level="Hard"
       />
 
       {/* Dynamic Cards */}
-      {Array.isArray(challenges) && challenges.length > 0 ? (
-        challenges.map((challenge) => (
-          <InfoCard
-            key={challenge._id} // Use _id if that's what your backend returns
-            img={card1} // Display uploaded image or default
-            alt={challenge.challengeName}
-            status="Upcoming"
-            challengeName={challenge.challengeName}
-            startDate={challenge.startDate}
-            endDate={challenge.endDate}
-            description={challenge.description}
-            level={challenge.level}
-            challengeId={challenge._id}
-          />
-        ))
-      ) : (
-        <p>No challenges available</p>
-      )}
+      {challenges.map((challenge) => (
+        <InfoCard
+          key={challenge.id}
+          img={challenge.image ? challenge.image : card1} // Display uploaded image or default
+          alt={challenge.challengeName}
+          status={challenge.status || "Upcoming"} // Default to 'Upcoming' if no status
+          challengeName={challenge.challengeName}
+          startDate={challenge.startDate}
+          endDate={challenge.endDate}
+          description={challenge.description || "Challenge description"} // Default description if none
+          level={challenge.level || "Easy"} // Default level if none specified
+          challengeId={challenge.id} // Pass challengeId for routing or further actions
+        />
+      ))}
     </div>
   );
 }

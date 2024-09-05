@@ -207,7 +207,7 @@ function InfoCard(props) {
               />
             </svg>
           </span>
-          <span className="text-xs sm:text-base">Participate</span>
+          Participate Now
         </Link>
       </div>
     </div>

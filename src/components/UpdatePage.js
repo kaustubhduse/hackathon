@@ -1,45 +1,48 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; // Import useParams hook
 import upload from "../assets/upload.png";
 
-function UpdatePage(props) {
+function UpdatePage() {
+  const { id } = useParams(); // Use useParams to access the id from the route
   const [challenge, setChallenge] = useState(null);
 
   useEffect(() => {
     // Retrieve challenges from localStorage
-    const savedChallenges = JSON.parse(localStorage.getItem('challenges')) || [];
-    
-    // Find the challenge based on an ID passed as a prop
-    const challengeId = props.match.params.id; // Adjust this based on how you're passing the ID
-    const foundChallenge = savedChallenges.find(ch => ch.id === parseInt(challengeId));
-    
+    const savedChallenges = JSON.parse(localStorage.getItem("challenges")) || [];
+
+    // Find the challenge based on the id from the URL params
+    const foundChallenge = savedChallenges.find(
+      (ch) => ch.id === parseInt(id) // Parse the id to an integer
+    );
+
     setChallenge(foundChallenge);
-  }, [props.match.params.id]);
+  }, [id]);
 
   const handleChange = (e) => {
     setChallenge({
       ...challenge,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleImageUpload = (e) => {
     setChallenge({
       ...challenge,
-      image: e.target.files[0]
+      image: e.target.files[0],
     });
   };
 
   const handleSubmit = () => {
     // Retrieve challenges from localStorage
-    const savedChallenges = JSON.parse(localStorage.getItem('challenges')) || [];
-    
+    const savedChallenges = JSON.parse(localStorage.getItem("challenges")) || [];
+
     // Find and update the existing challenge
-    const updatedChallenges = savedChallenges.map(ch =>
+    const updatedChallenges = savedChallenges.map((ch) =>
       ch.id === challenge.id ? challenge : ch
     );
-    
+
     // Save updated challenges back to localStorage
-    localStorage.setItem('challenges', JSON.stringify(updatedChallenges));
+    localStorage.setItem("challenges", JSON.stringify(updatedChallenges));
     alert("Challenge updated successfully");
   };
 
@@ -101,11 +104,7 @@ function UpdatePage(props) {
         <div className="mb-4 flex space-x-2 bg-[rgba(217,217,217,1)] w-fit py-3 px-[4%] rounded-lg">
           <p className="font-semibold mb-2 text-[rgba(102,102,102,1)]">Upload</p>
           <label className="relative block cursor-pointer">
-            <img
-              src={upload}
-              alt="Upload"
-              className="rounded cursor-pointer"
-            />
+            <img src={upload} alt="Upload" className="rounded cursor-pointer" />
             <input
               type="file"
               accept="image/*"
@@ -137,10 +136,7 @@ function UpdatePage(props) {
         </div>
 
         <div className="bg-[rgba(68,146,76,1)] text-center py-2 px-5 rounded-xl w-fit">
-          <button
-            className="text-white font-bold"
-            onClick={handleSubmit}
-          >
+          <button className="text-white font-bold" onClick={handleSubmit}>
             Update Challenge
           </button>
         </div>
