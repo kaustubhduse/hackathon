@@ -33,6 +33,14 @@ function CardChallenge() {
     });
   };
 
+  // Array of card images
+  const cardImages = [card1, card2, card3, card4, card5, card6];
+
+  // Function to get image for a challenge
+  const getCardImage = (index) => {
+    return cardImages[index % cardImages.length]; // Use modulo to cycle through images
+  };
+
   // Static cards data
   const staticCards = [
     {
@@ -105,10 +113,10 @@ function CardChallenge() {
       ))}
 
       {/* Dynamic Cards */}
-      {filterChallenges(challenges).map((challenge) => (
+      {filterChallenges(challenges).map((challenge, index) => (
         <InfoCard
           key={challenge.id} // Use id from localStorage data
-          img={challenge.image ? challenge.image : card1} // Display uploaded image or default
+          img={getCardImage(index)} // Get image from cardImages array
           alt={challenge.challengeName}
           status={challenge.status} // Ensure challenge data includes status
           challengeName={challenge.challengeName}
