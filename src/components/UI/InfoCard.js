@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./InfoCard.css"; // Import the CSS file for animations
 
@@ -7,6 +7,8 @@ function InfoCard(props) {
   const [status, setStatus] = useState("");
   const [description, setDescription] = useState("");
   const [intervalId, setIntervalId] = useState(null);
+  const [isVisible, setIsVisible] = useState(false); // State to track visibility
+  const cardRef = useRef(null); // Reference to the card element
 
   const { startDate, endDate, img, alt, challengeName, challengeId } = props;
 
@@ -76,6 +78,26 @@ function InfoCard(props) {
     }
   };
 
+  // Observe when the card enters the viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     determineStatusAndTimer();
     return () => {
@@ -84,7 +106,12 @@ function InfoCard(props) {
   }, [startDate, endDate]);
 
   return (
-    <div className="info-card animate-slide-up lg:w-[90%] w-[70%] mx-auto items-center justify-center bg-white shadow-lg rounded-2xl text-center flex flex-col h-[500px]">
+    <div
+      ref={cardRef}
+      className={`info-card lg:w-[90%] w-[70%] mx-auto items-center justify-center bg-white shadow-lg rounded-2xl text-center flex flex-col h-[500px] ${
+        isVisible ? "animate-slide-up" : "" // Add animation class when visible
+      }`}
+    >
       <img
         src={img}
         alt={alt}
