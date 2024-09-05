@@ -7,7 +7,7 @@
   
   @keyframes slideUp {
     from {
-      transform: translateY(20px);
+      transform: translateY(80px);
       opacity: 0;
     }
     to {
@@ -17,13 +17,13 @@
   }
   
   .info-card-img {
-    animation: fadeInZoom 0.8s ease-in-out forwards;
+    animation: fadeInZoom 1.8s ease-in-out forwards;
     opacity: 0;
   }
   
   @keyframes fadeInZoom {
     from {
-      transform: scale(0.95);
+      transform: scale(0.50);
       opacity: 0;
     }
     to {
@@ -35,5 +35,22 @@
   .info-card-button:hover {
     transform: scale(1.05);
     transition: transform 0.3s;
+  }
+  
+  /* Blinking effect for Active status */
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .active-blink {
+    animation: blink 1s infinite;
   }
   

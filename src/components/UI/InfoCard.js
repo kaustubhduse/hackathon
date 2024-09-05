@@ -104,7 +104,7 @@ function InfoCard(props) {
 
           {status === "Active" && (
             <div className="bg-[rgba(68,146,76,0.24)] w-fit text-center rounded-lg px-4">
-              <h1 className="text-[rgba(68,146,76,1)] font-semibold w-fit px-3 py-1 text-sm sm:text-base">
+              <h1 className="text-[rgba(68,146,76,1)] font-semibold w-fit px-3 py-1 text-sm sm:text-base active-blink">
                 {status}
               </h1>
             </div>
