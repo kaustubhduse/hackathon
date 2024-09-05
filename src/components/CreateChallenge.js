@@ -11,15 +11,6 @@ function CreateChallenge() {
   const [image, setImage] = useState(null);
   const [level, setLevel] = useState("Easy");
 
-  const formData = {
-    challengeName: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-    image: null,
-    level: "",
-  }
-
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleImageUpload = (event) => {
@@ -28,30 +19,28 @@ function CreateChallenge() {
 
   const challengeSubmitHandler = async (e) => {
     e.preventDefault();
-    formData.challengeName = challengeName;
-    formData.startDate = startDate;
-    formData.endDate = endDate;
-    formData.description = description;
-    formData.level = level;
 
-    
+    const formData = new FormData();
+    formData.append("challengeName", challengeName);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("description", description);
+    formData.append("level", level);
+
     if (image) {
-      formData.image = image;
+      formData.append("image", image);
     }
-     console.log("Form Data:", formData);
+
+    console.log("Form Data:", formData);
+
     try {
-      const response = await axios.post("https://hackathon-lyart-one.vercel.app/api/add-card", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post("https://hackathon-lyart-one.vercel.app/api/add-card", formData);
       console.log("Challenge added successfully:", response.data);
-      navigate("https://hackathon-lyart-one.vercel.app/api"); // Redirect to homepage after form submission
+      navigate("/"); // Redirect to homepage or desired route after form submission
     } catch (error) {
       console.error("Error submitting the challenge:", error.response ? error.response.data : error.message);
     }
   };
-  
 
   return (
     <div className="bg-white shadow-lg rounded-lg text-left py-[3%]">
@@ -105,7 +94,7 @@ function CreateChallenge() {
             <p className="font-semibold mb-2 text-[rgba(102,102,102,1)]">Upload</p>
             <label className="relative block cursor-pointer">
               <img
-                src={upload} // Replace with the path to your upload image
+                src={upload}
                 alt="Upload"
                 className="rounded cursor-pointer"
               />
@@ -140,7 +129,7 @@ function CreateChallenge() {
 
           <div className="bg-[rgba(68,146,76,1)] text-center py-2 px-5 rounded-xl w-fit">
             <button
-              type="submit" // Ensure the button type is 'submit'
+              type="submit"
               className="text-white font-bold"
             >
               Create Challenge
