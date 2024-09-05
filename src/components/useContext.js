@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 // Create the context
 export const ChallengeContext = createContext();
@@ -11,7 +11,18 @@ export const ChallengeProvider = ({ children }) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [level, setLevel] = useState("Easy");
-  const [challenges, setChallenges] = useState([]); // State to store dynamic challenges
+  const [challenges, setChallenges] = useState([]);
+
+  // Load challenges from localStorage when component mounts
+  useEffect(() => {
+    const savedChallenges = JSON.parse(localStorage.getItem('challenges')) || [];
+    setChallenges(savedChallenges);
+  }, []);
+
+  // Save challenges to localStorage whenever the challenges state changes
+  useEffect(() => {
+    localStorage.setItem('challenges', JSON.stringify(challenges));
+  }, [challenges]);
 
   // Function to handle image upload
   const handleImageUpload = (e) => {
@@ -26,7 +37,7 @@ export const ChallengeProvider = ({ children }) => {
       startDate,
       endDate,
       description,
-      image,
+      image: image ? URL.createObjectURL(image) : null, // Convert image to URL
       level,
     };
     setChallenges([...challenges, challengeData]); // Add new challenge to the list

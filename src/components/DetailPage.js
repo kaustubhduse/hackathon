@@ -1,46 +1,23 @@
 import React, { useState, useEffect } from "react";
 import easy from "../assets/easy.png";
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
 
-function DetailPage() {
+function DetailPage(props) {
   const [challenge, setChallenge] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { id } = useParams(); // Use the ID from the URL params
-  const navigate = useNavigate(); // Hook to navigate programmatically
 
   useEffect(() => {
-    const fetchChallenge = async () => {
-      try {
-        const response = await axios.get(`https://hackathon-lyart-one.vercel.app/api/get-card/${id}`);
-        setChallenge(response.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Retrieve challenges from localStorage
+    const savedChallenges = JSON.parse(localStorage.getItem('challenges')) || [];
+    
+    // Find the challenge based on an ID passed as a prop
+    const challengeId = props.match.params.id; // Adjust this based on how you're passing the ID
+    const foundChallenge = savedChallenges.find(ch => ch.id === parseInt(challengeId));
+    
+    setChallenge(foundChallenge);
+  }, [props.match.params.id]);
 
-    fetchChallenge();
-  }, [id]);
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`https://hackathon-lyart-one.vercel.app/api/delete-card/${id}`);
-      navigate("/"); // Navigate back to the home page after successful deletion
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleEdit = () => {
-    navigate(`/update/${id}`); // Navigate to the UpdatePage with the challenge ID
-  };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!challenge) return <p>No challenge found</p>;
+  if (!challenge) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="text-left">
@@ -60,7 +37,7 @@ function DetailPage() {
               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          Starts on {new Date(challenge.startDate).toLocaleDateString()} {new Date(challenge.startDate).toLocaleTimeString()} (Indian Standard Time)
+          Starts on {new Date(challenge.startDate).toLocaleDateString()} {new Date(challenge.startDate).toLocaleTimeString()}
         </h1>
 
         <h1 className="text-white text-2xl md:text-4xl font-bold">
@@ -71,9 +48,7 @@ function DetailPage() {
         </p>
         <div className="bg-white w-fit py-2 px-4 md:px-[2%] rounded-lg flex space-x-2 items-center">
           <img src={easy} alt="easy" className="h-5 w-5 md:h-6 md:w-6" />
-          <p className="text-[rgba(0,49,69,1)] font-semibold text-xs md:text-base">
-            {challenge.level}
-          </p>
+          <p className="text-[rgba(0,49,69,1)] font-semibold text-xs md:text-base">{challenge.level}</p>
         </div>
       </div>
 
@@ -83,37 +58,17 @@ function DetailPage() {
           <span className="absolute left-0 top-[100%] w-full h-1 bg-green-500"></span>
         </h1>
         <div className="flex flex-wrap justify-center md:justify-start space-x-4 md:space-x-8">
-          <div
-            className="bg-[rgba(68,146,76,1)] py-2 px-5 md:px-7 rounded-xl cursor-pointer"
-            onClick={handleEdit} // Navigate to the UpdatePage when clicked
-          >
+          <div className="bg-[rgba(68,146,76,1)] py-2 px-5 md:px-7 rounded-xl cursor-pointer">
             <p className="text-white">Edit</p>
           </div>
-          <div
-            className="border-2 border-[rgba(220,20,20,1)] py-2 px-4 md:px-5 rounded-xl cursor-pointer"
-            onClick={handleDelete}
-          >
+          <div className="border-2 border-[rgba(220,20,20,1)] py-2 px-4 md:px-5 rounded-xl cursor-pointer">
             <p className="text-red-600 font-bold">Delete</p>
           </div>
         </div>
       </div>
 
       <p className="px-4 py-4 md:px-[7%] md:py-[3%] lg:w-[80%] text-sm md:text-lg leading-relaxed">
-        Butterflies are the adult flying stage of certain insects belonging to
-        an order or group called Lepidoptera. The word "Lepidoptera" means
-        "scaly wings" in Greek. This name perfectly suits the insects in this
-        group because their wings are covered with thousands of tiny scales
-        overlapping in rows.
-        <br />
-        <br />
-        An agency of the Governmental Wildlife Conservation is planning to
-        implement an automated system based on computer vision so that it can
-        identify butterflies based on captured images. As a consultant for this
-        project, you are responsible for developing an efficient model.
-        <br />
-        <br />
-        Your Task is to build an Image Classification Model using CNN that
-        classifies to which class of weather each image belongs to.
+        {challenge.fullDescription}
       </p>
     </div>
   );
