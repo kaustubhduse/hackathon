@@ -33,22 +33,22 @@ function HomePage() {
       <div className="bg-[rgba(0,49,69,1)]">
         {/* Main Content */}
         <div className="flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:space-x-[5%] justify-center items-center p-5">
-          <div className="text-left w-full lg:w-[40%] py-8 lg:py-[98px]">
-            <h1 className="text-white text-2xl lg:text-5xl font-semibold">
+          <div className="text-left w-full lg:w-[40%] py-8 lg:py-[98px] animate-slide-up">
+            <h1 className="text-white text-2xl lg:text-5xl font-semibold animate-fade-in">
               Accelerate Innovation with Global AI Challenges
             </h1>
-            <p className="text-white mt-4 lg:mt-[7%] text-lg">
+            <p className="text-white mt-4 lg:mt-[7%] text-lg animate-fade-in delay-200">
               AI Challenges at DPhi simulate real-world problems. It is a great place to put your AI/Data Science skills to the test on diverse datasets, allowing you to foster learning through competitions.
             </p>
             {/* Link to Create Challenge Page */}
             <Link
               to="/create-challenge"
-              className="text-[rgba(0,49,69,1)] mt-4 lg:mt-[7%] bg-white py-2 px-3 rounded-xl font-bold inline-block"
+              className="text-[rgba(0,49,69,1)] mt-4 lg:mt-[7%] bg-white py-2 px-3 rounded-xl font-bold inline-block hover:scale-105 transform transition-transform duration-200"
             >
               Create Challenge
             </Link>
           </div>
-          <div className="flex justify-center items-center w-full lg:w-auto">
+          <div className="flex justify-center items-center w-full lg:w-auto animate-slide-up delay-300">
             <img src={rocket} alt="rocket" className="rocket max-w-full" />
           </div>
         </div>
@@ -60,7 +60,6 @@ function HomePage() {
         <StatCard image={s2} value="50K+" description="Data Scientists" />
         <StatCard image={s3} value="100+" description="AI challenges hosted" />
       </div>
-      
 
       {/* Why Participate Section */}
       <div className="px-6 lg:px-12 py-8">
@@ -100,8 +99,8 @@ function HomePage() {
 
       {/* Display Create Challenge Modal */}
       {showCreateChallenge && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 animate-fade-in">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative animate-scale-up">
             <button
               onClick={closeCreateChallenge}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
@@ -118,7 +117,7 @@ function HomePage() {
 
 function StatCard({ image, value, description }) {
   return (
-    <div className="flex items-center space-x-4 lg:space-x-6">
+    <div className="flex items-center space-x-4 lg:space-x-6 animate-fade-in delay-150">
       <img src={image} alt={description} className="w-12 h-12 lg:w-16 lg:h-16" />
       <div>
         <h1 className="text-left text-white font-bold text-xl lg:text-2xl">{value}</h1>

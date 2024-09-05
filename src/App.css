@@ -1,38 +1,157 @@
-.App {
-  text-align: center;
+/* General Page Styling */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 1.5s ease-in-out;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.slide-up {
+  animation: slideUp 1.2s ease-in-out;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.scale-up {
+  animation: scaleUp 0.6s ease-in-out;
 }
 
-.App-link {
-  color: #61dafb;
+.zoom-in {
+  animation: zoomIn 0.8s ease-in-out;
 }
 
-@keyframes App-logo-spin {
+/* Keyframes for Animations */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
   }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Navbar Styling */
+.navbar {
+  animation: slideDown 1s ease-in-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Main Content */
+h1, p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+h1 {
+  animation: fadeIn 1s ease-in forwards;
+}
+
+p {
+  animation: slideUp 1s ease-in forwards;
+}
+
+/* Button Styling */
+.create-challenge-button {
+  animation: zoomIn 0.8s ease forwards;
+  transition: background-color 0.3s ease;
+}
+
+.create-challenge-button:hover {
+  background-color: #ffcc00;
+}
+
+/* Rocket Image Animation */
+.rocket {
+  width: 100%;
+  max-width: 400px;
+  animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Stats Section */
+.stat-card {
+  animation: fadeIn 1.2s ease-in-out;
+  transition: transform 0.3s;
+}
+
+.stat-card:hover {
+  transform: scale(1.05);
+}
+
+/* Modal Popup Styling */
+.modal {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.modal-content {
+  animation: scaleUp 0.5s ease-in-out;
+}
+
+.close-button {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-button:hover {
+  color: red;
+}
+
+/* Static Card Animation */
+.static-card {
+  transition: transform 0.3s ease;
+}
+
+.static-card:hover {
+  transform: scale(1.05);
 }
