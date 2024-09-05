@@ -18,7 +18,13 @@ function CardChallenge() {
           "https://hackathon-lyart-one.vercel.app/api/get-cards"
         );
         if (response.status === 200) {
-          setChallenges(response.data);
+          // Check if the response data is an array
+          if (Array.isArray(response.data)) {
+            setChallenges(response.data);
+          } else {
+            console.error("Unexpected data format:", response.data);
+            setChallenges([]); // Set to empty array if format is not as expected
+          }
           console.log("Challenges fetched:", response.data);
         } else {
           console.error("Unexpected response status:", response.status);
@@ -84,20 +90,24 @@ function CardChallenge() {
       />
 
       {/* Dynamic Cards */}
-      {challenges.map((challenge) => (
-        <InfoCard
-          key={challenge._id} // Use _id if that's what your backend returns
-          img={card1} // Display uploaded image or default
-          alt={challenge.challengeName}
-          status="Upcoming"
-          challengeName={challenge.challengeName}
-          startDate={challenge.startDate}
-          endDate={challenge.endDate}
-          description={challenge.description}
-          level={challenge.level}
-          challengeId={challenge._id}
-        />
-      ))}
+      {Array.isArray(challenges) && challenges.length > 0 ? (
+        challenges.map((challenge) => (
+          <InfoCard
+            key={challenge._id} // Use _id if that's what your backend returns
+            img={card1} // Display uploaded image or default
+            alt={challenge.challengeName}
+            status="Upcoming"
+            challengeName={challenge.challengeName}
+            startDate={challenge.startDate}
+            endDate={challenge.endDate}
+            description={challenge.description}
+            level={challenge.level}
+            challengeId={challenge._id}
+          />
+        ))
+      ) : (
+        <p>No challenges available</p>
+      )}
     </div>
   );
 }
