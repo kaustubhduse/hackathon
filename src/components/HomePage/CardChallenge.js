@@ -14,12 +14,20 @@ function CardChallenge() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Await the response and access the data directly
-        const response = await axios.get("https://hackathon-lyart-one.vercel.app/api/get-cards"); // Adjust the endpoint if necessary
-        setChallenges(response.data); // Set the data received from the backend
-        console.log("Challenges fetched:", response.data);
+        const response = await axios.get(
+          "https://hackathon-lyart-one.vercel.app/api/get-cards"
+        );
+        if (response.status === 200) {
+          setChallenges(response.data);
+          console.log("Challenges fetched:", response.data);
+        } else {
+          console.error("Unexpected response status:", response.status);
+        }
       } catch (error) {
-        console.error("Error fetching challenges:", error);
+        console.error(
+          "Error fetching challenges:",
+          error.response ? error.response.data : error.message
+        );
       }
     };
 
@@ -87,7 +95,7 @@ function CardChallenge() {
           endDate={challenge.endDate}
           description={challenge.description}
           level={challenge.level}
-          challengeId={challenge._id} 
+          challengeId={challenge._id}
         />
       ))}
     </div>
