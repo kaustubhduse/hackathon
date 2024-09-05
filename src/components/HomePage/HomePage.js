@@ -5,6 +5,7 @@ import Explore from './Explore';
 import StaticCard from '../UI/StaticCard';
 import CardChallenge from './CardChallenge';
 import CreateChallenge from '../CreateChallenge';
+import './HomePage.css';
 
 // Image Imports
 import rocket from '../../assets/rocket.png';

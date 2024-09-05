@@ -1,0 +1,45 @@
+.slide-up {
+    animation: slideUp 1.2s ease-in-out;
+  }
+
+  .scale-up {
+    animation: scaleUp 0.6s ease-in-out;
+  }
+
+  p {
+    animation: slideUp 1s ease-in forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes scaleUp {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
